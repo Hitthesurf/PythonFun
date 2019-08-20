@@ -40,3 +40,11 @@ class TestHuffman(TestCase):
         comp.numbers = [1, 2, 3, 4, 5]
         comp.make_tree()
         self.assertEqual([[["a", "b"], "c"], ["d", "e"]], comp.binary_tree)
+
+    def test_make_tree_does_not_modify_chars_and_numbers_once_finished(self):
+        comp = Huffman_Compression.Huffman()
+        comp.chars = ["a", "b", "c", "d", "e"]
+        comp.numbers = [1, 2, 3, 4, 5]
+        comp.make_tree()
+        self.assertEqual(["a", "b", "c", "d", "e"], comp.chars)
+        self.assertEqual([1, 2, 3, 4, 5], comp.numbers)

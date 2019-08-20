@@ -34,8 +34,8 @@ class Huffman:
             self.add_letter(elements)
 
     def make_tree(self):
-        temp_chars = self.chars
-        temp_num = self.numbers
+        temp_chars = self.chars[:]  # So it passes by value
+        temp_num = self.numbers[:]
         while len(self.chars) > 2:
             total_number = self.numbers[0] + self.numbers[1]
             add_section = [self.chars[0], self.chars[1]]
