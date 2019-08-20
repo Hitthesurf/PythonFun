@@ -35,7 +35,7 @@ class TestHuffman(TestCase):
         self.assertEqual(expected_numbers, comp.numbers)
 
     def test_reading_text_file_and_adding_and_ordering_arrays(self):
-        comp = Huffman_Compression.Huffman("Hello.txt")
+        comp = Huffman_Compression.Huffman("Test.txt")
         comp.read_uncompressed_file()
         comp.bubble_sort()
         self.assertEqual(["H", "e", " ", "\n", "w", "r", "d", "o", "l"], comp.chars)
@@ -63,7 +63,6 @@ class TestHuffman(TestCase):
         comp.create_binary_store_string()
         self.assertEqual("000001011011", comp.binary_string)
 
-
     def test_write_compressed_file_and_read_compressed_file_so_that_they_work_together(self):
         comp = Huffman_Compression.Huffman()
         comp.compressed_file = "Testing_Byte_File"
@@ -86,6 +85,7 @@ class TestHuffman(TestCase):
     def test_save_binary_tree_and_read_binary_tree_so_they_work_together(self):
         comp = Huffman_Compression.Huffman()
         comp.compressed_file = "Testing_Byte_File"
+        comp.binary_tree_location = "binary_tree_test.txt"
         comp.binary_tree = [[["a", "b"], "c"], ["d", "e"]]
         comp.save_binary_tree()
         comp.binary_tree = []
@@ -99,6 +99,12 @@ class TestHuffman(TestCase):
         comp.all_letters = []
         comp.read_uncompressed_file()
         self.assertEqual(["a", "b", "c", "d", "e"], comp.all_letters)
+
+    def test_find_children_creates_the_correct_lookup_table(self):
+        comp = Huffman_Compression.Huffman()
+        comp.binary_tree = [[["a", "b"], "c"], ["d", "e"]]
+        comp.find_children("", comp.binary_tree)
+        self.assertEqual([["a", "000"], ["b", "001"], ['c', '01'], ['d', '10'], ['e', '11']], comp.lookup_table)
 
     def test_read_stored_string_returns_correct_string_when_reading_binary_string_and_binary_tree(self):
         comp = Huffman_Compression.Huffman()

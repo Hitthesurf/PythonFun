@@ -19,14 +19,16 @@ def get_binary_string(byte_array):
 
 
 class Huffman:
-    def __init__(self, uncompressed_file="Hello.txt"):
+    def __init__(self, uncompressed_file="myFile.txt", compressed_file="Byte_File", binary_tree_file="binary_tree.txt"):
         self.uncompressed_file = uncompressed_file
-        self.compressed_file = "Byte_File"
+        self.compressed_file = compressed_file
         self.chars = []
         self.all_letters = []
         self.numbers = []
         self.binary_tree = []
         self.binary_string = []
+        self.binary_tree_location = binary_tree_file
+        self.lookup_table = []
 
     def add_letter(self, letter):
         self.all_letters.append(letter)
@@ -82,16 +84,21 @@ class Huffman:
         self.binary_string = ""
 
     def read_compressed_file(self):
+        self.binary_string = []
         file = open(self.compressed_file, 'rb')
         byte_array = file.read()
         self.binary_string = get_binary_string(byte_array)
         file.close()
 
     def save_binary_tree(self):
-        pass
+        file = open(self.binary_tree_location, "w")
+        file.write(str(self.binary_tree))
+        file.close()
 
     def read_binary_tree(self):
-        pass
+        file = open(self.binary_tree_location, "r")
+        self.binary_tree = eval(file.read())
+        file.close()
 
     def write_uncompressed_file(self):
         file = open(self.uncompressed_file, "w")
@@ -100,12 +107,60 @@ class Huffman:
         file.close()
 
     def create_binary_store_string(self):
-        pass
+        self.lookup_table = []
+        self.find_children("", self.binary_tree)
+        for element in self.all_letters:
+            for lookup in self.lookup_table:
+                if lookup[0] == element:
+                    self.binary_string += lookup[1]
+                    break
+        self.binary_string = "".join(self.binary_string)
+
+    def find_children(self, binary_location, children):
+        if not (type(children[0]) == str):
+            self.find_children(binary_location + "0", children[0])
+        elif type(children[0]) == str:
+            self.lookup_table.append([children[0], binary_location + "0"])
+        else:
+            print("Error, find children", children[0])
+        if not (type(children[1]) == str):
+            self.find_children(binary_location + "1", children[1])
+        elif type(children[1]) == str:
+            self.lookup_table.append([children[1], binary_location + "1"])
+        else:
+            print("Error, find children", children[1])
 
     def read_stored_binary_string(self):
+        self.all_letters = []
         temp_tree = self.binary_tree[:]
         for digit in self.binary_string:
             temp_tree = temp_tree[:][int(digit)]
             if type(temp_tree) == str:
                 self.all_letters.append(temp_tree)
                 temp_tree = self.binary_tree[:]
+
+    def refresh(self):
+        self.chars = []
+        self.all_letters = []
+        self.numbers = []
+        self.binary_tree = []
+        self.binary_string = []
+        self.lookup_table = []
+
+    def compress(self):
+        self.refresh()
+        self.read_uncompressed_file()
+        self.bubble_sort()
+        self.make_tree()
+        self.save_binary_tree()
+        self.create_binary_store_string()
+        self.write_compressed_file()
+        self.refresh()
+
+    def uncompress(self):
+        self.refresh()
+        self.read_compressed_file()
+        self.read_binary_tree()
+        self.read_stored_binary_string()
+        self.write_uncompressed_file()
+        self.refresh()
