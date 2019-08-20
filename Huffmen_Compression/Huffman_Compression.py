@@ -4,6 +4,7 @@ class Huffman:
         self.store_location = ""
         self.chars = []
         self.numbers = []
+        self.binary_tree = []
 
     def add_letter(self, letter):
         if self.chars.count(letter) == 1:
@@ -33,4 +34,17 @@ class Huffman:
             self.add_letter(elements)
 
     def make_tree(self):
-        pass
+        temp_chars = self.chars
+        temp_num = self.numbers
+        while len(self.chars) > 2:
+            total_number = self.numbers[0] + self.numbers[1]
+            add_section = [self.chars[0], self.chars[1]]
+            del self.chars[0:2]
+            del self.numbers[0:2]
+            self.chars.insert(0, add_section)
+            self.numbers.insert(0, total_number)
+            self.bubble_sort()
+
+        self.binary_tree = self.chars
+        self.chars = temp_chars
+        self.numbers = temp_num

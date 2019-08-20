@@ -33,3 +33,10 @@ class TestHuffman(TestCase):
         comp.bubble_sort()
         self.assertEqual(["H", "e", " ", "\n", "w", "r", "d", "o", "l"], comp.chars)
         self.assertEqual([1, 1, 1, 1, 1, 1, 1, 2, 3], comp.numbers)
+
+    def test_make_tree_creates_the_correct_array_to_store_the_tree_in(self):
+        comp = Huffman_Compression.Huffman()
+        comp.chars = ["a", "b", "c", "d", "e"]
+        comp.numbers = [1, 2, 3, 4, 5]
+        comp.make_tree()
+        self.assertEqual([[["a", "b"], "c"], ["d", "e"]], comp.binary_tree)
