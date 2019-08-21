@@ -1,3 +1,5 @@
+from tkinter.filedialog import askopenfilename
+
 def binary_splitter(string, number):
     string += "0" * (len(string) % number)
     split_string = []
@@ -149,6 +151,7 @@ class Huffman:
 
     def compress(self):
         self.refresh()
+        self.select()
         self.read_uncompressed_file()
         self.bubble_sort()
         self.make_tree()
@@ -157,8 +160,15 @@ class Huffman:
         self.write_compressed_file()
         self.refresh()
 
+    def select(self):
+        print("Pick, uncompressed file")
+        self.uncompressed_file = askopenfilename()
+        print("Pick, compressed file")
+        self.compressed_file = askopenfilename()
+
     def uncompress(self):
         self.refresh()
+        self.select()
         self.read_compressed_file()
         self.read_binary_tree()
         self.read_stored_binary_string()
