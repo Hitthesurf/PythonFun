@@ -26,3 +26,9 @@ class MathFunction:
                 matrix_row.append(c_i_j)
             matrix.append(matrix_row)           
         return matrix
+    
+    def sigmoid(self, vector,e = 2.71828):
+        sigmoid_vector = []
+        for num in vector:
+             sigmoid_vector.append(1/(1+e**(-num)))
+        return sigmoid_vector

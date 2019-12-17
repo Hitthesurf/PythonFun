@@ -53,6 +53,23 @@ class TestMathFucntions(TestCase):
         expected_matrix = [ [11,-14, 22]]
         actual_matrix = math.mult(A_matrix, B_matrix)
         self.assertEqual(actual_matrix, expected_matrix)
+        
+    def test_sigmoid_function_for_1x1_vector(self):
+        math = MathFunction()
+        num_input = [5]
+        expected = [0.9933071267165111]
+        actual = math.sigmoid(num_input)
+        self.assertEqual(actual, expected)
+        
+    def test_sigmoid_function_for_1x4_vector(self):
+        math = MathFunction()
+        num_input = [5,0,-2]
+        expected = [0.9933071267165111,
+                    0.5,
+                    0.11920306327063111]
+        
+        actual = math.sigmoid(num_input)
+        self.assertEqual(actual, expected)
 
 class TestDigitRead(TestCase):
     def test_next_layer_outputs_correct_vector(self):
