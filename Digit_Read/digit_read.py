@@ -50,5 +50,19 @@ class Digit:
                 self.mywieghts3D[wieghts_matrix_counter].append(temp_line)
         self.mywieghts3D.pop(-1) #As E on last line
         my_file.close()   
-            
+           
+    def make_network(self, num_nodes_in_layer, value):
+        num_wieght_layers = len(num_nodes_in_layer)-1
+        self.mywieghts3D = []
+        for i in range(0, num_wieght_layers):
+            width = num_nodes_in_layer[i+1]
+            hieght = num_nodes_in_layer[i]+1
+            temp_matrix = []
+            #fill temp matrix
+            row_in_matrix = []
+            for k in range(0, width):
+                row_in_matrix.append(value)
+            for k in range(0, hieght):
+                temp_matrix.append(row_in_matrix)
+            self.mywieghts3D.append(temp_matrix)
     

@@ -115,4 +115,20 @@ class TestDigitRead(TestCase):
         digit.read_wieghts()
         actual = digit.mywieghts3D
         self.assertEqual(actual, my_wieghts)
+    
+    def test_make_network_creates_correct_wieght_array_for_given_nodes_in_layer(self):
+        digit = Digit()
+        digit.file_location = "text_make_network.txt"
+        num_nodes_in_layer = [2,3,1]
+        wieghts0 = [[1.0, 1.0, 1.0],
+                    [1.0, 1.0, 1.0],
+                    [1.0, 1.0, 1.0]]
+        wieghts1 = [[1.0],
+                    [1.0],
+                    [1.0],
+                    [1.0]]
+        expected_my_wieghts = [wieghts0, wieghts1]
+        digit.make_network(num_nodes_in_layer, 1.0)
+        actual = digit.mywieghts3D
+        self.assertEqual(actual,expected_my_wieghts)
         
