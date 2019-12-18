@@ -141,11 +141,39 @@ class TestDigitRead(TestCase):
         expected = [[[5.0, 2.0, 4.0, 3.0],  #Input
                      [2.0, 9.0, 1.0, 5.0],
                      [5.0, 2.0, 4.0, 3.0]],
-                    [[0.5, 0.3],
+                    [[0.5, 0.3],  #Output
                      [0.7, 0.4],
-                     [0.5, 0.3]]] #Output
+                     [0.5, 0.3]]]
         digit.read_data(num_input, num_output, num_records)
         actual = digit.records        
         
+        self.assertEqual(actual, expected)
+        
+    def test_find_output_from_input_calculates_correct_output_for_one_input(self):
+        digit = Digit()
+        nodes_in_layer = [3,2,2]
+        digit.make_network(nodes_in_layer)
+        input_data = [[1.0, 2.0, 3.0]]
+        digit.records = [input_data,[]]
+        expected = [[0.9524916507608503, 0.9524916507608503]]
+        digit.find_output_from_input()
+        actual = digit.calc_outputs
+        self.assertEqual(actual, expected)
+        
+    def test_find_output_from_input_calculates_correct_output_for_mult_inputs(self):
+        digit = Digit()
+        nodes_in_layer = [3,2,2]
+        digit.make_network(nodes_in_layer)
+        input_data = [[1.0, 2.0, 3.0],
+                      [2.0, 1.0, 3.0],
+                      [5.0, 4.0, 3.0],
+                      [1.0, 0.5, 2.0]]
+        digit.records = [input_data,[]]
+        expected = [[0.9524916507608503, 0.9524916507608503],
+                    [0.9524916507608503, 0.9524916507608503],
+                    [0.9525738314274983, 0.9525738314274983],
+                    [0.9515713940433558, 0.9515713940433558]]
+        digit.find_output_from_input()
+        actual = digit.calc_outputs
         self.assertEqual(actual, expected)
         

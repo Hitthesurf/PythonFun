@@ -14,6 +14,7 @@ class Digit:
         self.file_wieghts_location = "my_wieghts.txt"
         self.file_records_location = "my_records.rxt"
         self.records = [] #[0] for intput, [1] for output
+        self.calc_outputs = []
     
     def calc_next_layer(self, in_vector, wieghts):
         #weights are a matrix len(in_vector)+1 x len(output)
@@ -53,7 +54,7 @@ class Digit:
         self.mywieghts3D.pop(-1) #As E on last line
         my_file.close()   
            
-    def make_network(self, num_nodes_in_layer, value):
+    def make_network(self, num_nodes_in_layer, value = 1.0):
         num_wieght_layers = len(num_nodes_in_layer)-1
         self.mywieghts3D = []
         for i in range(0, num_wieght_layers):
@@ -83,3 +84,19 @@ class Digit:
             my_outputs.append(array_record_i[num_input:num_input+num_output])
         my_record_file.close()
         self.records = [my_inputs, my_outputs]
+        
+    def find_output_from_input(self):
+        self.calc_outputs = [] 
+        for input_vector in self.records[0]:
+            input_vector = [input_vector]
+            for wieght_matrix in self.mywieghts3D:
+                input_vector = self.calc_next_layer(input_vector, wieght_matrix)
+            self.calc_outputs.append(input_vector[0])    
+            
+            
+        
+        
+        
+        
+        
+        
