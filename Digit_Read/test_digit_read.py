@@ -86,14 +86,30 @@ class TestDigitRead(TestCase):
     def test_save_wieght_and_read_wieght_work_together(self):
         digit = Digit()
         digit.file_location = "test_wieghts.txt"
-        wieghts0 = [[1,2,3,4],
-                    [4,2,3,1]]
-        wieghts1 = [[5,6,7,8],
-                    [2,3,1,4]]
-        wieghts2 = [[3,1,5,9],
-                    [2,7,9,9]]
+        wieghts0 = [[1.2,2.0,3.0,4.0],
+                    [4.0,2.0,3.0,1.5]]
+        wieghts1 = [[5.0,6.3,7.0,8.0],
+                    [2.0,3.0,1.0,4.0]]
+        wieghts2 = [[3.0,1.0,5.0,9.0],
+                    [2.9,7.0,9.0,9.0]]
         my_wieghts = [wieghts0, wieghts1, wieghts2]
         digit.mywieghts3D = [wieghts0, wieghts1, wieghts2]
+        digit.save_wieghts()
+        digit.mywieghts3D =[[[]]] #to make sure it doesnt cheat test
+        digit.read_wieghts()
+        actual = digit.mywieghts3D
+        self.assertEqual(actual, my_wieghts)
+    
+    def test_save_wieght_and_read_wieght_work_together_2(self):
+        digit = Digit()
+        digit.file_location = "test_wieghts2.txt"
+        wieghts0 = [[1.2,2.0],
+                    [4.0,2.0]]
+        wieghts1 = [[5.0,6.3,7.0,8.0],
+                    [2.0,3.0,1.0,4.0],
+                    [2.9,7.0,9.0,9.0]]
+        my_wieghts = [wieghts0, wieghts1]
+        digit.mywieghts3D = [wieghts0, wieghts1]
         digit.save_wieghts()
         digit.mywieghts3D =[[[]]] #to make sure it doesnt cheat test
         digit.read_wieghts()

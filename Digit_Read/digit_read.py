@@ -22,8 +22,33 @@ class Digit:
         return next_layer
     
     def save_wieghts(self):
-        pass
-    
+        num_matrix = len(self.mywieghts3D)
+        save_lines = []
+        for m in range(0,num_matrix):
+            height = len(self.mywieghts3D[m])
+            for i in range(0, height):
+                save_lines.append(','.join(
+                        str(q) for q in self.mywieghts3D[m][i]))
+            save_lines.append("E")
+        my_file = open(self.file_location, 'w')
+        for line in save_lines:
+            my_file.write(line + '\n')
+        my_file.close()
+        
     def read_wieghts(self):
-        pass
+        self.mywieghts3D = [[]]
+        my_file = open(self.file_location, 'r')
+        wieghts_matrix_counter = 0
+        for saved_lines in my_file:
+            if saved_lines[0] == "E":
+                wieghts_matrix_counter += 1
+                self.mywieghts3D.append([])
+            else:
+                temp_line = saved_lines.split(',')
+                for i in range(0,len(temp_line)):
+                    temp_line[i] = float(temp_line[i])
+                self.mywieghts3D[wieghts_matrix_counter].append(temp_line)
+        self.mywieghts3D.pop(-1) #As E on last line
+        my_file.close()   
+            
     
