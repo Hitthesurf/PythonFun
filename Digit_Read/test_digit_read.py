@@ -85,7 +85,7 @@ class TestDigitRead(TestCase):
         
     def test_save_wieght_and_read_wieght_work_together(self):
         digit = Digit()
-        digit.file_location = "test_wieghts.txt"
+        digit.file_wieghts_location = "test_wieghts.txt"
         wieghts0 = [[1.2,2.0,3.0,4.0],
                     [4.0,2.0,3.0,1.5]]
         wieghts1 = [[5.0,6.3,7.0,8.0],
@@ -102,7 +102,7 @@ class TestDigitRead(TestCase):
     
     def test_save_wieght_and_read_wieght_work_together_2(self):
         digit = Digit()
-        digit.file_location = "test_wieghts2.txt"
+        digit.file_wieghts_location = "test_wieghts2.txt"
         wieghts0 = [[1.2,2.0],
                     [4.0,2.0]]
         wieghts1 = [[5.0,6.3,7.0,8.0],
@@ -118,7 +118,7 @@ class TestDigitRead(TestCase):
     
     def test_make_network_creates_correct_wieght_array_for_given_nodes_in_layer(self):
         digit = Digit()
-        digit.file_location = "text_make_network.txt"
+        digit.file_wieghts_location = "text_make_network.txt"
         num_nodes_in_layer = [2,3,1]
         wieghts0 = [[1.0, 1.0, 1.0],
                     [1.0, 1.0, 1.0],
@@ -131,4 +131,21 @@ class TestDigitRead(TestCase):
         digit.make_network(num_nodes_in_layer, 1.0)
         actual = digit.mywieghts3D
         self.assertEqual(actual,expected_my_wieghts)
+    
+    def test_read_data_loads_records_correctly(self):
+        digit = Digit()
+        digit.file_records_location = "needed_data/test_read_data.txt"
+        num_input = 4
+        num_output = 2
+        num_records = 3
+        expected = [[[5.0, 2.0, 4.0, 3.0],  #Input
+                     [2.0, 9.0, 1.0, 5.0],
+                     [5.0, 2.0, 4.0, 3.0]],
+                    [[0.5, 0.3],
+                     [0.7, 0.4],
+                     [0.5, 0.3]]] #Output
+        digit.read_data(num_input, num_output, num_records)
+        actual = digit.records        
+        
+        self.assertEqual(actual, expected)
         

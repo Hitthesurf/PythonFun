@@ -11,7 +11,9 @@ class Digit:
     def __init__(self):
         self.mymath = MathFunctions.MathFunction()
         self.mywieghts3D = [[[]]]
-        self.file_location = "my_wieghts.txt"
+        self.file_wieghts_location = "my_wieghts.txt"
+        self.file_records_location = "my_records.rxt"
+        self.records = [] #[0] for intput, [1] for output
     
     def calc_next_layer(self, in_vector, wieghts):
         #weights are a matrix len(in_vector)+1 x len(output)
@@ -30,14 +32,14 @@ class Digit:
                 save_lines.append(','.join(
                         str(q) for q in self.mywieghts3D[m][i]))
             save_lines.append("E")
-        my_file = open(self.file_location, 'w')
+        my_file = open(self.file_wieghts_location, 'w')
         for line in save_lines:
             my_file.write(line + '\n')
         my_file.close()
         
     def read_wieghts(self):
         self.mywieghts3D = [[]]
-        my_file = open(self.file_location, 'r')
+        my_file = open(self.file_wieghts_location, 'r')
         wieghts_matrix_counter = 0
         for saved_lines in my_file:
             if saved_lines[0] == "E":
@@ -65,4 +67,19 @@ class Digit:
             for k in range(0, hieght):
                 temp_matrix.append(row_in_matrix)
             self.mywieghts3D.append(temp_matrix)
-    
+            
+    def read_data(self, num_input, num_output, num_records):
+        self.records = []
+        my_record_file = open(self.file_records_location, 'r')
+        my_inputs = []
+        my_outputs = []
+        records_from_file = my_record_file.readlines()
+        for i in range(0, num_records):
+            string_record_i = records_from_file[i]
+            array_record_i = string_record_i.split(',')
+            for k in range(0, len(array_record_i)):
+                array_record_i[k] = float(array_record_i[k])
+            my_inputs.append(array_record_i[0:num_input])
+            my_outputs.append(array_record_i[num_input:num_input+num_output])
+        my_record_file.close()
+        self.records = [my_inputs, my_outputs]
