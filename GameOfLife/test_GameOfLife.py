@@ -34,7 +34,23 @@ class TestGameOfLifeGridCount(TestCase):
         expected = 3
         actual = grid.get_neighbour_count(in_down, in_right)
         self.assertEqual(expected, actual)
-    
+        
+    def test_get_neighbour_count_gets_correct_count_in_corner_1(self):
+        grid = self.before_each_test()
+        in_right = 1
+        in_down = 1
+        expected = 4
+        actual = grid.get_neighbour_count(in_down, in_right)
+        self.assertEqual(expected, actual)
+        
+    def test_get_neighbour_count_gets_correct_count_in_corner_2(self):
+        grid = self.before_each_test()
+        in_right = 5
+        in_down = 1
+        expected = 2
+        actual = grid.get_neighbour_count(in_down, in_right)
+        self.assertEqual(expected, actual)
+        
     def test_get_value_gets_the_correct_value_for_position_in_range_1(self):
         grid = self.before_each_test()
         in_right = 3
@@ -50,6 +66,16 @@ class TestGameOfLifeGridCount(TestCase):
         expected = 1
         actual = grid.get_value(in_down, in_right)
         self.assertEqual(expected, actual)
+        
+    def test_get_value_gets_the_correct_value_for_position_out_of_range(self):
+        grid = self.before_each_test()
+        in_right = 6
+        in_down = 4
+        expected = 0
+        actual = grid.get_value(in_down, in_right)
+        self.assertEqual(expected, actual)
+    
+    
         
 class TestGameOfLifeGridNextState(TestCase):
     def test_next_state_is_death_when_neighbours_is_1_and_current_state_1(self):
@@ -99,3 +125,42 @@ class TestGameOfLifeGridNextState(TestCase):
         expected = 0
         actual = grid.next_state(in_neighbours, in_current_state)
         self.assertEqual(expected, actual)
+        
+class TestGameOfLifeNextGrid(TestCase):
+    def test_next_grid_calculates_the_correct_grid_given_no_live_cells_next_to_boundary(self):
+        grid = GameOfLifeGrid()
+        #Beacon Oscillator
+        input_grid = [[0,0,0,0,0,0,0],
+                      [0,1,1,0,0,0,0],
+                      [0,1,0,0,0,0,0],
+                      [0,0,0,0,1,0,0],
+                      [0,0,0,1,1,0,0],
+                      [0,0,0,0,0,0,0]]
+        
+        expected =   [[0,0,0,0,0,0,0],
+                      [0,1,1,0,0,0,0],
+                      [0,1,1,0,0,0,0],
+                      [0,0,0,1,1,0,0],
+                      [0,0,0,1,1,0,0],
+                      [0,0,0,0,0,0,0]]
+        grid.current_grid = input_grid
+        grid.next_grid()
+        actual = grid.current_grid
+        self.assertEqual(expected, actual)
+        
+    def test_next_grid_calculates_the_correct_grid_when_life_on_edge(self):
+        grid = GameOfLifeGrid()
+        #Blinker Oscillator
+        input_grid = [[1,1,0,0,1],
+                      [0,0,0,0,0],
+                      [0,0,0,0,0],
+                      [0,0,0,0,0]]
+        expected = [[1,0,0,0,0],
+                    [1,0,0,0,0],
+                    [0,0,0,0,0],
+                    [1,0,0,0,0]]
+        grid.current_grid = input_grid
+        grid.next_grid()
+        actual = grid.current_grid
+        self.assertEqual(expected, actual)
+        

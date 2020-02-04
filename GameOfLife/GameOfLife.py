@@ -8,7 +8,7 @@ Created on Tue Feb  4 17:33:24 2020
 
 class GameOfLifeGrid:
     def __init__(self):
-        self.grid_size = [5,5]
+        #self.grid_size = [5,5]
         self.current_grid = []
     
     def get_neighbour_count(self, down, right):
@@ -23,7 +23,9 @@ class GameOfLifeGrid:
         return neighbour_count
             
     def get_value(self, down, right):
-        return self.current_grid[down-1][right-1]
+        down_length = len(self.current_grid)
+        right_length = len(self.current_grid[0])
+        return self.current_grid[down%down_length-1][right%right_length-1]
     
     def next_state(self, neighbours, current_state):
         n = neighbours
@@ -41,3 +43,18 @@ class GameOfLifeGrid:
                 return 1
             else:
                 return 0
+            
+    def next_grid(self):
+        temp_grid = []
+        down_length = len(self.current_grid)
+        right_length = len(self.current_grid[0])
+        for down_pos in range(1, down_length + 1):
+            temp_row = []
+            for right_pos in range(1, right_length + 1):
+                current_state = self.get_value(down_pos, right_pos)
+                neigh_count = self.get_neighbour_count(down_pos, right_pos)
+                my_next_state = self.next_state(neigh_count, current_state)
+                temp_row.append(my_next_state)
+            temp_grid.append(temp_row)
+        self.current_grid = temp_grid
+        
