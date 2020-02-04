@@ -50,6 +50,52 @@ class TestGameOfLifeGridCount(TestCase):
         expected = 1
         actual = grid.get_value(in_down, in_right)
         self.assertEqual(expected, actual)
+        
+class TestGameOfLifeGridNextState(TestCase):
+    def test_next_state_is_death_when_neighbours_is_1_and_current_state_1(self):
+        grid = GameOfLifeGrid()
+        in_neighbours = 1
+        in_current_state = 1
+        expected = 0
+        actual = grid.next_state(in_neighbours, in_current_state)
+        self.assertEqual(expected, actual)
     
+    def test_next_state_is_life_when_neighbours_is_2_and_current_state_1(self):
+        grid = GameOfLifeGrid()
+        in_neighbours = 2
+        in_current_state = 1
+        expected = 1
+        actual = grid.next_state(in_neighbours, in_current_state)
+        self.assertEqual(expected, actual)
     
+    def test_next_state_is_life_when_neighbours_is_3_and_current_state_1(self):
+        grid = GameOfLifeGrid()
+        in_neighbours = 3
+        in_current_state = 1
+        expected = 1
+        actual = grid.next_state(in_neighbours, in_current_state)
+        self.assertEqual(expected, actual)
+        
+    def test_next_state_is_death_when_neighbours_is_4_and_current_state_1(self):
+        grid = GameOfLifeGrid()
+        in_neighbours = 4
+        in_current_state = 1
+        expected = 0
+        actual = grid.next_state(in_neighbours, in_current_state)
+        self.assertEqual(expected, actual)
     
+    def test_next_state_is_life_when_neighbours_is_3_and_current_state_0(self):
+        grid = GameOfLifeGrid()
+        in_neighbours = 3
+        in_current_state = 0
+        expected = 1
+        actual = grid.next_state(in_neighbours, in_current_state)
+        self.assertEqual(expected, actual)
+        
+    def test_next_state_is_death_when_neighbours_is_not_3_and_current_state_0(self):
+        grid = GameOfLifeGrid()
+        in_neighbours = 2
+        in_current_state = 0
+        expected = 0
+        actual = grid.next_state(in_neighbours, in_current_state)
+        self.assertEqual(expected, actual)

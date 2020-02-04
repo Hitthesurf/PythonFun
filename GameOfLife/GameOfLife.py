@@ -24,3 +24,20 @@ class GameOfLifeGrid:
             
     def get_value(self, down, right):
         return self.current_grid[down-1][right-1]
+    
+    def next_state(self, neighbours, current_state):
+        n = neighbours
+        if current_state == 1:
+            #alive
+            if n < 2:
+                return 0
+            if ((n==2) + (n==3)):
+                return 1
+            if n>3:
+                return 0
+        
+        if current_state == 0:
+            if n==3:
+                return 1
+            else:
+                return 0
