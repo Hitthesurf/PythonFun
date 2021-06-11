@@ -3,6 +3,8 @@ import numpy as np
 import time
 import os
 
+#Terminal must be big, so no wrapping of text occurs
+
 #define
 res_x = 150
 res_y = 35
@@ -19,22 +21,25 @@ starting_grid = np.random.randint(0, 2, (res_y, res_x))
 
 
 def Display(Grid, ExtraString = "",fps = 4):
-    sdisplay = ""
+    CLR = "\x1B[0K"
+    sdisplay = "\x1B["+str(res_y + 10)+"A" #only 9 new line characters allowed in extrastring
     for a in range(len(Grid)):
         for b in range(len(Grid[0])):
             if Grid[a][b]:
                 sdisplay += "X"
             else:
                 sdisplay += "."
-        sdisplay += "\n"
+        sdisplay += CLR + "\n"
 		
     sdisplay += ExtraString
-	
-    os.system('cls' if os.name == 'nt' else 'clear')
+       
+    
+    #os.system('cls' if os.name == 'nt' else 'clear') #This method causes flickering
     print(sdisplay)
     time.sleep(1/fps)
 
 def DisplayGameOfLife(T = 100, fps = 5):
+    os.system('cls' if os.name == 'nt' else 'clear') #To keep neat
     Grid = GameOfLifeGrid()
     Grid.current_grid = starting_grid
     
