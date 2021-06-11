@@ -4,10 +4,10 @@ import time
 import os
 
 #define
-res_x = 120
-res_y = 40
+res_x = 150
+res_y = 35
 T = 200
-fps = 120
+fps = 60
 
 
 starting_grid = [[1,1,0,1],
